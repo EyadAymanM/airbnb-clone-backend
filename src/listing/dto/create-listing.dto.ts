@@ -104,7 +104,7 @@ export class CreateListingDto {
   availableDates: AvailableDateDto[];
 
   @IsString()
-  @IsOptional()
-  @IsMongoId()
-  category?: Types.ObjectId;
+  // @IsMongoId()
+  category?: string;
+  // category?: Types.ObjectId;
 }

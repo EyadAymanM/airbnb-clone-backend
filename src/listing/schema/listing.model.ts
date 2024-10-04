@@ -18,7 +18,6 @@ class Address {
   @Prop({ required: true })
   postalCode: string;
 }
-
 class Location {
   @Prop({ required: true })
   latitude: number;
@@ -41,11 +40,12 @@ export class Listing extends Document {
   type: string;
 
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: 'Category',
     required: true,
   })
-  category: Types.ObjectId;
+  category: string;
+  // category: Types.ObjectId;
 
   @Prop({ type: Address, required: true })
   @Type(() => Address)
