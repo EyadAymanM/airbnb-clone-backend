@@ -93,4 +93,22 @@ export class ListingService {
       throw new InternalServerErrorException('Error deleting listing');
     }
   }
+  async findByCategory(categoryName: string): Promise<Listing[]> {
+    try {
+      const listings = await this.listingModel.find({ category: categoryName });
+      if (listings.length === 0) {
+        throw new NotFoundException(
+          `No listings found in category: ${categoryName}`,
+        );
+      }
+      return listings;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        'Error retrieving listings by category',
+      );
+    }
+  }
 }

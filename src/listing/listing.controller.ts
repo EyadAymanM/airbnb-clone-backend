@@ -1,15 +1,16 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
-  Put,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
 } from '@nestjs/common';
-import { ListingService } from './listing.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { UpdateListingDto } from './dto/update-listing.dto';
+import { ListingService } from './listing.service';
 
 @Controller('listing')
 export class ListingController {
@@ -21,7 +22,10 @@ export class ListingController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query('category') category?: string) {
+    if (category) {
+      return this.listingService.findByCategory(category);
+    }
     return this.listingService.findAll();
   }
 
