@@ -32,6 +32,7 @@ export class AuthService {
       access_token: await this.jwtService.signAsync({
         id: user._id,
         firstName: user.firstName,
+        email: user.email,
       }),
     };
   }
@@ -46,6 +47,7 @@ export class AuthService {
       access_token: await this.jwtService.signAsync({
         id: user._id,
         firstName: user.firstName,
+        email: user.email,
       }),
     };
   }
