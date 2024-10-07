@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Types, Document } from 'mongoose';
 import { Type } from 'class-transformer';
+import { Amenity } from 'src/amenity/schema/amenity.schema';
 
 class Address {
   @Prop({ required: true })
@@ -67,8 +68,11 @@ export class Listing extends Document {
   @Prop({ required: true, min: 0 })
   bathrooms: number;
 
+  // @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }] })
+  // amenities?: Types.ObjectId[];
+
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }] })
-  amenities?: Types.ObjectId[];
+  amenities?: Amenity[];
 
   @Prop({ type: [String], required: true, minlength: 1 })
   photos: string[];

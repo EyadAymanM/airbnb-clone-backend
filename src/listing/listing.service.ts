@@ -38,7 +38,9 @@ export class ListingService {
 
   async findOne(id: string): Promise<Listing> {
     try {
-      const listing = await this.listingModel.findById(id);
+      const listing = await this.listingModel
+        .findById(id)
+        .populate('amenities');
       if (!listing) {
         throw new NotFoundException('Listing not found');
       }
