@@ -28,6 +28,18 @@ export class ListingService {
     }
   }
 
+  async createUserListing(hostId): Promise<Listing> {
+    try {
+      const createdListing = new this.listingModel({ owner: hostId });
+      return await createdListing.save();
+    } catch (error) {
+      if (error instanceof Error.ValidationError) {
+        throw new BadRequestException('Invalid listing data');
+      }
+      throw new InternalServerErrorException('Error creating listing');
+    }
+  }
+
   async findAll(): Promise<Listing[]> {
     try {
       return await this.listingModel.find();
@@ -38,7 +50,9 @@ export class ListingService {
 
   async findOne(id: string): Promise<Listing> {
     try {
-      const listing = await this.listingModel.findById(id);
+      const listing = await this.listingModel
+        .findById(id)
+        .populate('amenities');
       if (!listing) {
         throw new NotFoundException('Listing not found');
       }
