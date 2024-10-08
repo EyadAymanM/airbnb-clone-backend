@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcryptjs';
@@ -21,8 +26,13 @@ export class UserService {
   }
 
   async findUser(id: string) {
-    const user: User = await this.userModel.findById(id);
-    return user;
+    try {
+      const user: User = await this.userModel.findById(id);
+      if (!user) throw new NotFoundException();
+      return user;
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
   }
   async findUserByEmail(email: string) {
     const user: User = await this.userModel.findOne({ email });

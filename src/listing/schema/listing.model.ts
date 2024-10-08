@@ -3,89 +3,89 @@ import mongoose, { Types, Document } from 'mongoose';
 import { Type } from 'class-transformer';
 
 class Address {
-  @Prop({ required: true })
+  @Prop({  })
   country: string;
 
-  @Prop({ required: true })
+  @Prop({  })
   city: string;
 
-  @Prop({ required: true })
+  @Prop({  })
   street: string;
 
-  @Prop({ required: true })
+  @Prop({  })
   governorate: string;
 
-  @Prop({ required: true })
+  @Prop({  })
   postalCode: string;
 }
 class Location {
-  @Prop({ required: true })
+  @Prop({  })
   latitude: number;
 
-  @Prop({ required: true })
+  @Prop({  })
   longitude: number;
 }
 
 class AvailableDate {
-  @Prop({ required: true })
+  @Prop({  })
   start_date: Date;
 
-  @Prop({ required: true })
+  @Prop({  })
   end_date: Date;
 }
 
 @Schema({ timestamps: true })
 export class Listing extends Document {
-  @Prop({ required: true })
+  @Prop({  })
   type: string;
 
   @Prop({
     // type: mongoose.Schema.Types.ObjectId,
     // ref: 'Category',
-    required: true,
+    
   })
   category: string;
   // category: Types.ObjectId;
 
-  @Prop({ type: Address, required: true })
+  @Prop({ type: Address,  })
   @Type(() => Address)
   address: Address;
 
-  @Prop({ type: Location, required: true })
+  @Prop({ type: Location,  })
   @Type(() => Location)
   location: Location;
 
-  @Prop({ required: true, min: 1 })
+  @Prop({  min: 1 })
   guests: number;
 
-  @Prop({ required: true, min: 1 })
+  @Prop({  min: 1 })
   bedrooms: number;
 
-  @Prop({ required: true, min: 1 })
+  @Prop({  min: 1 })
   beds: number;
 
-  @Prop({ required: true, min: 0 })
+  @Prop({  min: 0 })
   bathrooms: number;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }] })
   amenities?: Types.ObjectId[];
 
-  @Prop({ type: [String], required: true, minlength: 1 })
+  @Prop({ type: [String],  minlength: 1 })
   photos: string[];
 
-  @Prop({ required: true })
+  @Prop({  })
   title: string;
 
-  @Prop({ required: true })
+  @Prop({  })
   description: string;
 
-  @Prop({ type: Number, required: true, min: 0 })
+  @Prop({ type: Number,  min: 0 })
   price: number;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User',  })
   owner: Types.ObjectId;
 
-  @Prop({ type: [AvailableDate], required: true })
+  @Prop({ type: [AvailableDate],  })
   @Type(() => AvailableDate)
   availableDates: AvailableDate[];
 }
