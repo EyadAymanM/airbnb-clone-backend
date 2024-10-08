@@ -78,7 +78,7 @@ export class CreateListingDto {
   @IsOptional()
   @IsArray()
   @IsMongoId({ each: true })
-  amenities?: Types.ObjectId[];
+  amenities?: string[];
 
   @IsArray()
   @IsString({ each: true })
