@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { ListingModule } from './listing/listing.module';
 import { ReservationsModule } from './reservations/reservations.module';
 import { AmenityModule } from './amenity/amenity.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AmenityModule } from './amenity/amenity.module';
     ListingModule,
     ReservationsModule,
     AmenityModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService],
