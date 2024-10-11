@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { Reservation, ReservationDocument } from './schema/reservation.schema';
@@ -19,13 +19,11 @@ export class ReservationsService {
     private listModel: Model<Listing>,
   ) {}
 
-  async create(CreateReservationDto: CreateReservationDto) {
-    const { listingId } = CreateReservationDto;
-    const start = new Date(CreateReservationDto.startDate);
-    const end = new Date(CreateReservationDto.endDate);
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      throw new BadRequestException('Invalid date format');
-    }
+  private async checkForConflictingReservations(
+    listingId: string,
+    start: Date,
+    end: Date,
+  ) {
     const existingReservation = await this.reservationModel.findOne({
       listingId: listingId,
       $or: [{ startDate: { $lt: end }, endDate: { $gt: start } }],
@@ -35,6 +33,19 @@ export class ReservationsService {
         'The listing is already reserved for the selected dates.',
       );
     }
+  }
+
+  async create(CreateReservationDto: CreateReservationDto) {
+    const { listingId } = CreateReservationDto;
+    const start = new Date(CreateReservationDto.startDate);
+    const end = new Date(CreateReservationDto.endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      throw new BadRequestException('Invalid date format');
+    }
+
+    await this.checkForConflictingReservations(listingId, start, end);
+
     const listing = await this.listModel.findById(listingId);
     if (!listing) {
       throw new BadRequestException('Listing not found.');
@@ -47,7 +58,7 @@ export class ReservationsService {
       (end.getTime() - start.getTime()) / (1000 * 3600 * 24),
     );
     const totalPrice = dayCount * pricePerDay;
-    console.log(totalPrice);
+
     if (isNaN(totalPrice) || totalPrice <= 0) {
       throw new BadRequestException(
         'Total price should be a valid positive number',
@@ -82,34 +93,87 @@ export class ReservationsService {
     return reservation;
   }
 
+  // async update(id: string, updateReservationDto: UpdateReservationDto) {
+  //   const { startDate, endDate } = updateReservationDto;
+
+  //   if (!startDate || !endDate) {
+  //     throw new BadRequestException('startDate and endDate are required');
+  //   }
+  //   const start = new Date(startDate);
+  //   const end = new Date(endDate);
+
+  //   if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+  //     throw new BadRequestException('Invalid date format');
+  //   }
+
+  //   const existingReservation = await this.reservationModel.findById(id);
+  //   if (!existingReservation) {
+  //     throw new NotFoundException(`Reservation with ID ${id} not found`);
+  //   }
+
+  //   const listingId = existingReservation.listingId.toString(); // تحويل ObjectId إلى string
+
+  //   await this.checkForConflictingReservations(listingId, start, end);
+
+  //   const listing = await this.listModel.findById(listingId);
+  //   if (!listing) {
+  //     throw new BadRequestException('Listing not found.');
+  //   }
+
+  //   const pricePerDay = listing.price;
+  //   const dayCount = Math.ceil(
+  //     (end.getTime() - start.getTime()) / (1000 * 3600 * 24),
+  //   );
+  //   const totalPrice = dayCount * pricePerDay;
+
+  //   if (isNaN(totalPrice) || totalPrice <= 0) {
+  //     throw new BadRequestException(
+  //       'Total price should be a valid positive number',
+  //     );
+  //   }
+
+  //   const updatedReservation = await this.reservationModel
+  //     .findByIdAndUpdate(
+  //       id,
+  //       { ...updateReservationDto, listingId, totalPrice },
+  //       { new: true },
+  //     )
+  //     .exec();
+  //   if (!updatedReservation) {
+  //     throw new NotFoundException(`Reservation with ID ${id} not found`);
+  //   }
+  //   return updatedReservation;
+  // }
+
   async update(id: string, updateReservationDto: UpdateReservationDto) {
-    const { startDate, endDate } = updateReservationDto;
-
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      throw new BadRequestException('Invalid date format');
-    }
-
     const existingReservation = await this.reservationModel.findById(id);
     if (!existingReservation) {
       throw new NotFoundException(`Reservation with ID ${id} not found`);
     }
 
-    const listingId = existingReservation.listingId;
+    // استخدام التواريخ الموجودة إذا لم يتم تقديمها في الطلب
+    const startDate =
+      updateReservationDto.startDate || existingReservation.startDate;
+    const endDate = updateReservationDto.endDate || existingReservation.endDate;
 
-    const conflictingReservation = await this.reservationModel.findOne({
-      listingId: listingId,
-      $or: [{ startDate: { $lt: end }, endDate: { $gt: start } }],
-    });
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
-    if (conflictingReservation) {
-      throw new BadRequestException(
-        'The listing is already reserved for the selected dates.',
-      );
+    // التحقق من صحة التواريخ
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      throw new BadRequestException('Invalid date format');
     }
 
+    // تحقق من التعارضات فقط إذا كانت التواريخ قد تغيرت
+    if (
+      existingReservation.startDate !== startDate ||
+      existingReservation.endDate !== endDate
+    ) {
+      const listingId = existingReservation.listingId.toString();
+      await this.checkForConflictingReservations(listingId, start, end);
+    }
+
+    const listingId = existingReservation.listingId.toString();
     const listing = await this.listModel.findById(listingId);
     if (!listing) {
       throw new BadRequestException('Listing not found.');
@@ -130,10 +194,17 @@ export class ReservationsService {
     const updatedReservation = await this.reservationModel
       .findByIdAndUpdate(
         id,
-        { ...updateReservationDto, listingId, totalPrice },
+        {
+          ...updateReservationDto,
+          listingId,
+          totalPrice,
+          startDate: start,
+          endDate: end,
+        },
         { new: true },
       )
       .exec();
+
     if (!updatedReservation) {
       throw new NotFoundException(`Reservation with ID ${id} not found`);
     }
@@ -149,4 +220,5 @@ export class ReservationsService {
     }
     return deletedReservation;
   }
+
 }
