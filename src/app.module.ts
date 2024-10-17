@@ -9,6 +9,7 @@ import { ListingModule } from './listing/listing.module';
 import { ReservationsModule } from './reservations/reservations.module';
 import { AmenityModule } from './amenity/amenity.module';
 import { ReviewModule } from './review/review.module';
+import { WishlistModule } from './wishlist/wishlist.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ReviewModule } from './review/review.module';
     ReservationsModule,
     AmenityModule,
     ReviewModule,
+    WishlistModule,
   ],
   controllers: [AppController],
   providers: [AppService],

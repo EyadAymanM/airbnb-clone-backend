@@ -107,6 +107,7 @@ export class ListingService {
       throw new InternalServerErrorException('Error deleting listing');
     }
   }
+  
   async findByCategory(categoryName: string): Promise<Listing[]> {
     try {
       const listings = await this.listingModel.find({ category: categoryName });

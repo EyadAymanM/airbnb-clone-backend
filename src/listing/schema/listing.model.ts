@@ -4,68 +4,67 @@ import { Type } from 'class-transformer';
 import { Amenity } from 'src/amenity/schema/amenity.schema';
 
 class Address {
-  @Prop({  })
+  @Prop({})
   country: string;
 
-  @Prop({  })
+  @Prop({})
   city: string;
 
-  @Prop({  })
+  @Prop({})
   street: string;
 
-  @Prop({  })
+  @Prop({})
   governorate: string;
 
-  @Prop({  })
+  @Prop({})
   postalCode: string;
 }
 class Location {
-  @Prop({  })
+  @Prop({})
   latitude: number;
 
-  @Prop({  })
+  @Prop({})
   longitude: number;
 }
 
 class AvailableDate {
-  @Prop({  })
+  @Prop({})
   start_date: Date;
 
-  @Prop({  })
+  @Prop({})
   end_date: Date;
 }
 
 @Schema({ timestamps: true })
 export class Listing extends Document {
-  @Prop({  })
+  @Prop({})
   type: string;
 
   @Prop({
     // type: mongoose.Schema.Types.ObjectId,
     // ref: 'Category',
-    
+
   })
   category: string;
-  // category: Types.ObjectId;
 
-  @Prop({ type: Address,  })
+  @Prop({ type: Address, })
   @Type(() => Address)
   address: Address;
 
-  @Prop({ type: Location,  })
+  @Prop({ type: Location, })
   @Type(() => Location)
   location: Location;
 
-  @Prop({  min: 1 })
+  @Prop({ min: 1 })
   guests: number;
 
-  @Prop({  min: 1 })
+  @Prop({ min: 1 })
   bedrooms: number;
 
-  @Prop({  min: 1 })
+  @Prop({ min: 1 })
   beds: number;
 
-  @Prop({  min: 0 })
+  @Prop({ min: 0 })
   bathrooms: number;
 
   // @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }] })
@@ -74,22 +73,22 @@ export class Listing extends Document {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Amenity' }] })
   amenities?: Amenity[];
 
-  @Prop({ type: [String],  minlength: 1 })
+  @Prop({ type: [String], minlength: 1 })
   photos: string[];
 
-  @Prop({  })
+  @Prop({})
   title: string;
 
-  @Prop({  })
+  @Prop({})
   description: string;
 
-  @Prop({ type: Number,  min: 0 })
+  @Prop({ type: Number, min: 0 })
   price: number;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User',  })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   owner: Types.ObjectId;
 
-  @Prop({ type: [AvailableDate],  })
+  @Prop({ type: [AvailableDate] })
   @Type(() => AvailableDate)
   availableDates: AvailableDate[];
 }
