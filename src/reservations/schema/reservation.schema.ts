@@ -15,7 +15,6 @@ export class Reservation extends Document {
   })
   listingId: mongoose.Schema.Types.ObjectId;
 
-
   @Prop({ type: Date, required: true })
   startDate: Date;
 
@@ -23,7 +22,10 @@ export class Reservation extends Document {
   endDate: Date;
 
   @Prop({ type: Number, required: true })
+  guestsCount: number;
+
+  @Prop({ type: Number, required: true })
   totalPrice: number;
 }
 
-export const ReservationSchema = SchemaFactory.createForClass(Reservation)
+export const ReservationSchema = SchemaFactory.createForClass(Reservation);

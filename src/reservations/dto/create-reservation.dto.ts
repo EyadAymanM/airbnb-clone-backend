@@ -20,7 +20,11 @@ export class CreateReservationDto {
   @IsNotEmpty()
   endDate: Date;
 
-//   @IsNotEmpty()
-//   @IsNumber()
-//   totalPrice: number;
+  @IsNotEmpty()
+  @IsNumber()
+  guestsCount: number;
+
+  //   @IsNotEmpty()
+  //   @IsNumber()
+  //   totalPrice: number;
 }
