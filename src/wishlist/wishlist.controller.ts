@@ -63,17 +63,16 @@ export class WishlistController {
     );
   }
 
-  @Delete('/remove')
-  async removeFromWishlist(
-    @Req() req,
-    @Body('wishlistId') wishlistId: string,
-    @Body('listingId') listingId: string,
-  ) {
+  @Get('favorite/get')
+  async getAllListingIds(@Req() req) {
     const userId = req.id;
-    return await this.wishlistService.removeFromWishlist(
-      userId,
-      wishlistId,
-      listingId,
-    );
+    const listingIds = await this.wishlistService.getAllListingIds(userId);
+    return { listingIds };
+  }
+
+  @Delete('/favorite/remove/:listingId')
+  async removeFromWishlist(@Req() req, @Param('listingId') listingId: string) {
+    const userId = req.id;
+    return await this.wishlistService.removeFromWishlist(userId, listingId);
   }
 }

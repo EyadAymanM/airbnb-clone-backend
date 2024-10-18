@@ -91,20 +91,26 @@ export class WishlistService {
     return wishlist.save();
   }
 
+  async getAllListingIds(userId: string) {
+    const wishlists = await this.wishlistModel.find({
+      user: new Types.ObjectId(userId),
+    });
+    const listingIds = wishlists.flatMap((wishlist) => wishlist.listing);
+    return listingIds;
+  }
+
   async removeFromWishlist(
     userId: string,
-    wishlistId: string,
     listingId: string,
   ): Promise<Wishlist> {
     const wishlist = await this.wishlistModel.findOne({
       user: new Types.ObjectId(userId),
-      _id: new Types.ObjectId(wishlistId),
     });
     wishlist.listing = wishlist.listing.filter((id) => {
       return id instanceof Types.ObjectId
         ? !id.equals(new Types.ObjectId(listingId))
         : id !== listingId;
     });
-    return wishlist.save();
+    return await wishlist.save();
   }
 }
