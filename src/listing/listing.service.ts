@@ -52,7 +52,9 @@ export class ListingService {
     try {
       const listing = await this.listingModel
         .findById(id)
-        .populate('amenities');
+        .populate('amenities')
+        .populate('owner', 'firstName lastName _id')
+        .exec();
       if (!listing) {
         throw new NotFoundException('Listing not found');
       }

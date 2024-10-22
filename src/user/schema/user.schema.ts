@@ -38,7 +38,16 @@ export class User extends Document {
   @Prop({ unique: true })
   phoneNumber: string;
 
-  @Prop({ type: AddressSchema })
+  @Prop({
+    default:
+      'https://res.cloudinary.com/dqrid1fi3/image/upload/v1729230344/kwrifwuycusuohxopa8j.jpg',
+  })
+  image: string;
+
+  @Prop({
+    type: AddressSchema,
+    default: { street: '', city: '', country: 'Egypt', zip: 0 },
+  })
   address: Address;
 }
 

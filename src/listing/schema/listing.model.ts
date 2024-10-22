@@ -86,7 +86,7 @@ export class Listing extends Document {
   @Prop({ type: Number,  min: 0 })
   price: number;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User',  })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   owner: Types.ObjectId;
 
   @Prop({ type: [AvailableDate],  })
