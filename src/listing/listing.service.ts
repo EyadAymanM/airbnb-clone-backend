@@ -42,7 +42,7 @@ export class ListingService {
 
   async findAll(): Promise<Listing[]> {
     try {
-      return await this.listingModel.find();
+      return await this.listingModel.find({ verified: true });
     } catch (error) {
       throw new InternalServerErrorException('Error retrieving listings');
     }
@@ -112,7 +112,10 @@ export class ListingService {
   
   async findByCategory(categoryName: string): Promise<Listing[]> {
     try {
-      const listings = await this.listingModel.find({ category: categoryName });
+      const listings = await this.listingModel.find({
+        category: categoryName,
+        verified: true,
+      });
       if (listings.length === 0) {
         throw new NotFoundException(
           `No listings found in category: ${categoryName}`,
