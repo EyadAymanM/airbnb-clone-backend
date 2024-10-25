@@ -43,15 +43,14 @@ export class Listing extends Document {
   @Prop({
     // type: mongoose.Schema.Types.ObjectId,
     // ref: 'Category',
-
   })
   category: string;
 
-  @Prop({ type: Address, })
+  @Prop({ type: Address })
   @Type(() => Address)
   address: Address;
 
-  @Prop({ type: Location, })
+  @Prop({ type: Location })
   @Type(() => Location)
   location: Location;
 
@@ -91,6 +90,9 @@ export class Listing extends Document {
   @Prop({ type: [AvailableDate] })
   @Type(() => AvailableDate)
   availableDates: AvailableDate[];
+
+  @Prop({ default: false })
+  verified: boolean;
 }
 
 export const ListingSchema = SchemaFactory.createForClass(Listing);
