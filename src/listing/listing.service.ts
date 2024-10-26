@@ -42,7 +42,7 @@ export class ListingService {
 
   async findAll(): Promise<Listing[]> {
     try {
-      return await this.listingModel.find();
+      return await this.listingModel.find({ verified: true });
     } catch (error) {
       throw new InternalServerErrorException('Error retrieving listings');
     }
