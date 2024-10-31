@@ -109,7 +109,7 @@ export class ListingService {
       throw new InternalServerErrorException('Error deleting listing');
     }
   }
-  
+
   async findByCategory(categoryName: string): Promise<Listing[]> {
     try {
       const listings = await this.listingModel.find({
@@ -128,6 +128,26 @@ export class ListingService {
       }
       throw new InternalServerErrorException(
         'Error retrieving listings by category',
+      );
+    }
+  }
+  async findByUserId(hostId: string): Promise<Listing[]> {
+    try {
+      const listings = await this.listingModel.find({
+        owner: hostId,
+      });
+
+      if (!listings.length) {
+        throw new NotFoundException(`No listings found for user ID: ${hostId}`);
+      }
+
+      return listings;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        'Error retrieving listings by user ID',
       );
     }
   }
