@@ -31,6 +31,13 @@ export class ListingController {
     return this.listingService.createUserListing(id);
   }
 
+  @Get('/owner/:id')
+  @UseGuards(AuthGuard)
+  findByOwner(@Req() req) {
+    const id = req.id;
+    return this.listingService.findByOwner(id);
+  }
+
   @Get()
   findAll(@Query('category') category?: string) {
     if (category) {
@@ -39,11 +46,20 @@ export class ListingController {
     return this.listingService.findAll();
   }
 
+  @Get('verified')
+  GetVerifiedListings(@Query('category') category?: string) {
+    if (category) {
+      return this.listingService.findByCategory(category);
+    }
+    return this.listingService.findVerified();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.listingService.findOne(id);
   }
 
+  
   @Put(':id')
   update(@Param('id') id: string, @Body() updateListingDto: UpdateListingDto) {
     return this.listingService.update(id, updateListingDto);

@@ -28,7 +28,7 @@ export class CategoryService {
   }
 
   findAll() {
-    return this.categoryModel.find().exec();
+    return this.categoryModel.find({ show: true }).exec();
   }
 
   async findOne(id: string) {

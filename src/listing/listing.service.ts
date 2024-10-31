@@ -48,6 +48,14 @@ export class ListingService {
     }
   }
 
+  async findVerified(): Promise<Listing[]> {
+    try {
+      return await this.listingModel.find({ verified: true });
+    } catch (error) {
+      throw new InternalServerErrorException('Error retrieving listings');
+    }
+  }
+
   async findOne(id: string): Promise<Listing> {
     try {
       const listing = await this.listingModel
@@ -64,6 +72,23 @@ export class ListingService {
         throw error;
       }
       throw new InternalServerErrorException('Error retrieving listing');
+    }
+  }
+
+  async findByOwner(id: string): Promise<Listing[]> {
+    try {
+      const listings = await this.listingModel
+        .find({ owner: id }, '_id createdAt')
+        .exec();
+      if (!listings) {
+        throw new NotFoundException('Listing not found');
+      }
+      return listings;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error retrieving listings');
     }
   }
 

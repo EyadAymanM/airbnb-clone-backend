@@ -41,10 +41,10 @@ export class Listing extends Document {
   type: string;
 
   @Prop({
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: 'Category',
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
   })
-  category: string;
+  category: Types.ObjectId;
 
   @Prop({ type: Address })
   @Type(() => Address)
