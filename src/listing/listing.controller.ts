@@ -69,4 +69,11 @@ export class ListingController {
   remove(@Param('id') id: string) {
     return this.listingService.remove(id);
   }
+
+  @Get('hosting/listings')
+  @UseGuards(AuthGuard)
+  async findAllByUserId(@Req() req) {
+    const hostId = req.id;
+    return this.listingService.findByUserId(hostId);
+  }
 }
