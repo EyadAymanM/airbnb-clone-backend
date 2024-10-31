@@ -42,7 +42,10 @@ export class ListingService {
 
   async findAll(): Promise<Listing[]> {
     try {
-      return await this.listingModel.find();
+      return await this.listingModel
+        .find()
+        .populate('amenities')
+        .populate('owner', 'firstName lastName _id');
     } catch (error) {
       throw new InternalServerErrorException('Error retrieving listings');
     }
@@ -109,7 +112,7 @@ export class ListingService {
       throw new InternalServerErrorException('Error deleting listing');
     }
   }
-  
+
   async findByCategory(categoryName: string): Promise<Listing[]> {
     try {
       const listings = await this.listingModel.find({
