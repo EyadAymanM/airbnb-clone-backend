@@ -49,6 +49,13 @@ export class User extends Document {
     default: { street: '', city: '', country: 'Egypt', zip: 0 },
   })
   address: Address;
+
+  @Prop({ 
+    type: String, 
+    enum: ['user', 'admin'], 
+    default: 'user' 
+  })
+  roles: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
