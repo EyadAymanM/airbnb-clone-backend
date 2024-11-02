@@ -87,9 +87,17 @@ export class Listing extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   owner: Types.ObjectId;
 
-  @Prop({ type: [AvailableDate] })
+  // @Prop({ type: [AvailableDate] })
+  // @Type(() => AvailableDate)
+  // availableDates: AvailableDate[];
+
+  @Prop({ type: Date })
   @Type(() => AvailableDate)
-  availableDates: AvailableDate[];
+  startDate: Date;
+
+  @Prop({ type: Date })
+  @Type(() => AvailableDate)
+  endDate: Date;
 
   @Prop({ default: false })
   verified: boolean;

@@ -35,7 +35,9 @@ export class ReservationsService {
     }
   }
 
-  async create(CreateReservationDto: CreateReservationDto) {
+  async create(CreateReservationDto: CreateReservationDto, id) {
+    console.log(6556);
+    
     const { listingId } = CreateReservationDto;
     const start = new Date(CreateReservationDto.startDate);
     const end = new Date(CreateReservationDto.endDate);
@@ -67,6 +69,7 @@ export class ReservationsService {
 
     const newReservation = new this.reservationModel({
       ...CreateReservationDto,
+      userId: id,
       startDate: start,
       endDate: end,
       totalPrice: totalPrice,

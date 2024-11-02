@@ -7,18 +7,23 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('book')
 export class ReservationsController {
   constructor(private readonly reservationsService: ReservationsService) {}
 
   @Post()
-  create(@Body() createReservationDto: CreateReservationDto) {
-    return this.reservationsService.create(createReservationDto);
+  @UseGuards(AuthGuard)
+  create(@Body() createReservationDto: CreateReservationDto, @Req() req) {
+    const id = req.id;
+    return this.reservationsService.create(createReservationDto, id);
   }
 
   @Get()

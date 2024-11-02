@@ -2,9 +2,9 @@ import { IsDate, IsMongoId, IsNotEmpty, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateReservationDto {
-  @IsMongoId()
-  @IsNotEmpty()
-  userId: string;
+  // @IsMongoId()
+  // @IsNotEmpty()
+  // userId: string;
 
   @IsMongoId()
   @IsNotEmpty()
@@ -24,7 +24,7 @@ export class CreateReservationDto {
   @IsNumber()
   guestsCount: number;
 
-  //   @IsNotEmpty()
-  //   @IsNumber()
-  //   totalPrice: number;
+  @IsNotEmpty()
+  @IsNumber()
+  totalPrice: number;
 }
