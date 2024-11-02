@@ -6,8 +6,8 @@ import { Types } from "mongoose";
 
 export class CreateReviewDto {
 
-    @IsMongoId()
-    reviewerId: Types.ObjectId;
+    // @IsMongoId()
+    // reviewerId: Types.ObjectId;
 
     @IsMongoId()
     listingId: Types.ObjectId;

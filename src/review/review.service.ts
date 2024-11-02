@@ -24,13 +24,13 @@ export class ReviewService {
   }
 
   
-  async createUserReview(reviewrId): Promise<Review> {
+  async createUserReview(createReviewDto: CreateReviewDto, reviewerId): Promise<Review> {
     try {
-      const createdReview = new this.reviewModel({ owner: reviewrId });
+      const createdReview = new this.reviewModel({ ...createReviewDto, reviewerId: reviewerId });
       return await createdReview.save();
     } catch (error) {
       if (error instanceof Error.ValidationError) {
-        throw new BadRequestException('Invalid review ');
+        throw new BadRequestException('Invalid review');
       }
       throw new InternalServerErrorException('Error creating review');
     }

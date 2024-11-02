@@ -20,8 +20,8 @@ export class Review extends Document {
   @Prop({minlength: 10, maxlength: 500 })
   comment: string; 
 
-//   @Prop({ default: Date.now })
-//   reviewDate?: Date; 
+  @Prop({ default: Date.now })
+  reviewDate?: Date; 
 
 }
 

@@ -15,11 +15,11 @@ export class ReviewController {
     return this.reviewService.create(createReviewDto);
   }
 
-  @Post('review')
+  @Post('add')
   @UseGuards(AuthGuard)
-  createUserListing(@Req() req): Promise<Review>  {
+  createUserReview(@Body() createReviewDto: CreateReviewDto, @Req() req): Promise<Review>  {
     const id = req.id;
-    return this.reviewService.createUserReview(id);
+    return this.reviewService.createUserReview(createReviewDto,id);
   }
 
   @Get()
