@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Types, Document } from 'mongoose';
 import { Type } from 'class-transformer';
-import { Amenity } from 'src/amenity/schema/amenity.schema';
+import { Amenity } from '../../amenity/schema/amenity.schema';
 
 class Address {
   @Prop({})

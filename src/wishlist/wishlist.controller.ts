@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../auth/auth.guard';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 
 @Controller('wishlist')

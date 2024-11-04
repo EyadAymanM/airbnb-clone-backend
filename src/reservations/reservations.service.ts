@@ -8,7 +8,7 @@ import { Model, ObjectId } from 'mongoose';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { Reservation, ReservationDocument } from './schema/reservation.schema';
-import { Listing } from 'src/listing/schema/listing.model';
+import { Listing } from '../listing/schema/listing.model';
 
 @Injectable()
 export class ReservationsService {
