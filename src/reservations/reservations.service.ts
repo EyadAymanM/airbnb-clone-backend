@@ -76,7 +76,11 @@ export class ReservationsService {
   }
 
   async findAll(): Promise<Reservation[]> {
-    return this.reservationModel.find().populate('listingId').exec();
+    return this.reservationModel
+      .find()
+      .populate('listingId', 'title price _id')
+      .populate('userId', 'firstName lastName _id')
+      .exec();
   }
 
   async findByUser(userId: string): Promise<Reservation[]> {
@@ -221,5 +225,4 @@ export class ReservationsService {
     }
     return deletedReservation;
   }
-
 }
