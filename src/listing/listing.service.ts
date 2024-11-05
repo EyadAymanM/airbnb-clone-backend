@@ -44,6 +44,7 @@ export class ListingService {
     try {
       return await this.listingModel
         .find()
+        .populate('category')
         .populate('amenities')
         .populate('owner', 'firstName lastName _id');
     } catch (error) {
