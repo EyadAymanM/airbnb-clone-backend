@@ -225,4 +225,29 @@ export class ReservationsService {
     }
     return deletedReservation;
   }
+
+  async getMonthlyBookingsAndRevenue(
+    year: number,
+  ): Promise<{ booking: number[]; revenue: number[] }> {
+    const monthlyDate = Array(12)
+      .fill(0)
+      .map(() => ({ booking: 0, revenue: 0 }));
+
+    const reservations = await this.reservationModel.find({
+      startDate: {
+        $gte: new Date(`${year}-01-01`),
+        $lte: new Date(`${year}-12-31`),
+      },
+    });
+
+    reservations.forEach((reservation) => {
+      const month = reservation.startDate.getMonth();
+      monthlyDate[month].booking += 1;
+      monthlyDate[month].revenue += reservation.totalPrice;
+    });
+    return {
+      booking: monthlyDate.map((data) => data.booking),
+      revenue: monthlyDate.map((data) => data.revenue),
+    };
+  }
 }
