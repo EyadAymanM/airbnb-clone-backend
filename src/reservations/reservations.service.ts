@@ -84,7 +84,7 @@ export class ReservationsService {
   }
 
   async findByUser(userId: string): Promise<Reservation[]> {
-    return this.reservationModel.find({ userId }).exec();
+    return this.reservationModel.find({ userId }).populate('listingId').exec();
   }
 
   async findOne(id: string): Promise<Reservation> {

@@ -17,7 +17,7 @@ import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('book')
 export class ReservationsController {
-  constructor(private readonly reservationsService: ReservationsService) {}
+  constructor(private readonly reservationsService: ReservationsService) { }
 
   @Post()
   @UseGuards(AuthGuard)
@@ -32,6 +32,13 @@ export class ReservationsController {
       return this.reservationsService.findByUser(userId);
     }
     return this.reservationsService.findAll();
+  }
+
+  @Get('user')
+  @UseGuards(AuthGuard)
+  findByUser(@Req() req) {
+    const userId = req.id;
+    return this.reservationsService.findByUser(userId);
   }
 
   @Get(':id')

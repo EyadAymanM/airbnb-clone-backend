@@ -27,6 +27,11 @@ export class ReviewController {
     return this.reviewService.findAll();
   }
 
+  @Get('listing/:id')
+  findByListingId(@Param('id') id: string): Promise<Review> {
+    return this.reviewService.findByListingId(id);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Review>  {
     return this.reviewService.findOne(id);

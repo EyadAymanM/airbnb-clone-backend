@@ -59,6 +59,18 @@ export class ReviewService {
     }
   }
 
+  async findByListingId(id: string): Promise<any> {
+    try {
+      const review = await this.reviewModel.find({ listingId: id }).populate('reviewerId');
+      return review
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error in find review');
+    }
+  }
+
 
   async update(id: string, updateReviewDto: UpdateReviewDto,): Promise<Review> {
 
