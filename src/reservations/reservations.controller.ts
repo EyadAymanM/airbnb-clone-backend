@@ -39,6 +39,12 @@ export class ReservationsController {
     return this.reservationsService.findOne(id);
   }
 
+  @Get('monthly-data')
+  async getMonthlyBookingsAndRevenue(@Query('year') year: string) {
+    const targetYear = parseInt(year) || new Date().getFullYear();
+    return this.reservationsService.getMonthlyBookingsAndRevenue(targetYear);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

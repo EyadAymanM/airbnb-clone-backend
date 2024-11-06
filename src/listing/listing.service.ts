@@ -64,6 +64,7 @@ export class ListingService {
     try {
       const listing = await this.listingModel
         .findById(id)
+        .populate('category')
         .populate('amenities')
         .populate('owner', 'firstName lastName _id')
         .exec();
