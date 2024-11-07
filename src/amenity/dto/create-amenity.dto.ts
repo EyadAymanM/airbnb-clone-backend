@@ -30,5 +30,5 @@ export class CreateAmenityDto {
   description: DescriptionDto;
 
   @IsNotEmpty()
-  icon: string; 
+  icon: string;
 }
