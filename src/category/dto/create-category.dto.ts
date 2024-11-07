@@ -16,7 +16,7 @@ class DisplayName {
 export class CreateCategoryDto {
   @ValidateNested()
   @Type(() => DisplayName)
-  displayName: string;
+  displayName: DisplayName;
 
   @IsNotEmpty()
   @IsString()

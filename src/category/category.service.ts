@@ -17,7 +17,10 @@ export class CategoryService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     const existingCategory = await this.categoryModel.findOne({
-      displayName: createCategoryDto.displayName,
+      $or: [
+        { 'displayName.en': createCategoryDto.displayName.en },
+        { 'displayName.ar': createCategoryDto.displayName.ar },
+      ],
     });
 
     if (existingCategory) {

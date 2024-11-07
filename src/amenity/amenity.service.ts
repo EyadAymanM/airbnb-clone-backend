@@ -16,7 +16,10 @@ export class AmenityService {
 
   async create(createAmenityDto: CreateAmenityDto) {
     const existingAmenity = await this.amenityModel.findOne({
-      name: createAmenityDto.name,
+      $or: [
+        { 'name.en': createAmenityDto.name.en },
+        { 'name.ar': createAmenityDto.name.ar },
+      ],
     });
     if (existingAmenity) {
       throw new BadRequestException('This amenity already exists.');
