@@ -20,12 +20,14 @@ export class AuthService {
     lastName: string,
     email: string,
     password: string,
+    roles: string
   ) {
     const user: User = await this.userService.create({
       firstName,
       lastName,
       email,
       password,
+      roles,
     });
     if (!user) throw new BadRequestException('Somthing went wrong...');
     return {
@@ -33,6 +35,7 @@ export class AuthService {
         id: user._id,
         firstName: user.firstName,
         email: user.email,
+        role: user.roles
       }),
     };
   }
@@ -46,11 +49,15 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync({
         id: user._id,
+        firstName: user.firstName,
+        email: user.email,
+        role: user.roles
       }),
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       image: user.image,
+      roles: user.roles
     };
   }
 }

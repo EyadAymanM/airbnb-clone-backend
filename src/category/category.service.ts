@@ -31,6 +31,10 @@ export class CategoryService {
   }
 
   findAll() {
+    return this.categoryModel.find().exec();
+  }
+
+  findShowedCategories() {
     return this.categoryModel.find({ show: true }).exec();
   }
 
