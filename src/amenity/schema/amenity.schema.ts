@@ -3,14 +3,33 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Amenity extends Document {
-  @Prop({ required: true, unique: true })
-  name: string;
+  @Prop({
+    type: {
+      en: { type: String, required: true },
+      ar: { type: String, required: true },
+    },
+    required: true,
+    unique: true,
+  })
+  name: {
+    en: string;
+    ar: string;
+  };
+
+  @Prop({
+    type: {
+      en: { type: String, required: true },
+      ar: { type: String, required: true },
+    },
+    required: true,
+  })
+  description: {
+    en: string;
+    ar: string;
+  };
 
   @Prop({ required: true })
-  description: string;
-
-  @Prop({ required: true })
-  icon: string; 
+  icon: string;
 }
 
 export const AmenitySchema = SchemaFactory.createForClass(Amenity);

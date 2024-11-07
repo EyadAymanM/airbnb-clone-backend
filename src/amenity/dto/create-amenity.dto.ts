@@ -2,11 +2,17 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreateAmenityDto {
   @IsNotEmpty()
-  name: string;
+  name: {
+    en: string;
+    ar: string;
+  };
 
   @IsNotEmpty()
-  description: string;
+  description: {
+    en: string;
+    ar: string;
+  };
 
   @IsNotEmpty()
-  icon: string; 
+  icon: string;
 }
