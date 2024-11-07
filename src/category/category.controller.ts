@@ -25,6 +25,11 @@ export class CategoryController {
     return this.categoryService.findAll();
   }
 
+  @Get('show')
+  findShowedCategories() {
+    return this.categoryService.findShowedCategories();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.categoryService.findOne(id);
