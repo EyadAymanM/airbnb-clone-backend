@@ -17,6 +17,7 @@ export class AuthController {
       register.lastName,
       register.email,
       register.password,
+      register.roles
     );
   }
   @Post('login')
