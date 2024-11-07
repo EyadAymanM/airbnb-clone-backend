@@ -40,6 +40,28 @@ export class AuthService {
     };
   }
 
+  async registerNormalUser(
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+  ) {
+    const user: User = await this.userService.create({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
+    if (!user) throw new BadRequestException('Somthing went wrong...');
+    return {
+      access_token: await this.jwtService.signAsync({
+        id: user._id,
+        firstName: user.firstName,
+        email: user.email,
+      }),
+    };
+  }
+
   async login(email: string, password: string) {
     const user: User = await this.userService.findUserByEmail(email);
     if (!user) throw new UnauthorizedException('Wrong email or password');

@@ -12,13 +12,22 @@ export class AuthController {
   ) {}
   @Post('register')
   register(@Body() register: Register) {
-    return this.authService.register(
-      register.firstName,
-      register.lastName,
-      register.email,
-      register.password,
-      register.roles
-    );
+    if (register.roles){
+      return this.authService.register(
+        register.firstName,
+        register.lastName,
+        register.email,
+        register.password,
+        register.roles
+      );
+    } else {
+      return this.authService.registerNormalUser(
+        register.firstName,
+        register.lastName,
+        register.email,
+        register.password,
+      );
+    }
   }
   @Post('login')
   login(@Body() login: LogIn) {
