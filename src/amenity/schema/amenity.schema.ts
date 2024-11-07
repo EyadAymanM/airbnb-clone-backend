@@ -1,13 +1,25 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+class Name {
+  @Prop({})
+  en: string;
+  @Prop({})
+  ar: string;
+}
 
+class Description {
+  @Prop({})
+  en: string;
+  @Prop({})
+  ar: string;
+}
 @Schema()
 export class Amenity extends Document {
-  @Prop({ required: true, unique: true })
-  name: string;
+  @Prop({ type: Name, required: true, unique: true })
+  name: Name;
 
-  @Prop({ required: true })
-  description: string;
+  @Prop({ type: Description, required: true })
+  description: Description;
 
   @Prop({ required: true })
   icon: string; 

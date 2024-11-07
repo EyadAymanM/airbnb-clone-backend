@@ -92,11 +92,9 @@ export class Listing extends Document {
   // availableDates: AvailableDate[];
 
   @Prop({ type: Date })
-  @Type(() => AvailableDate)
   startDate: Date;
 
   @Prop({ type: Date })
-  @Type(() => AvailableDate)
   endDate: Date;
 
   @Prop({ default: false })

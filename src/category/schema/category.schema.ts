@@ -1,10 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Type } from 'class-transformer';
 import { Document } from 'mongoose';
 
+class DisplayName {
+  @Prop({})
+  en: string;
+
+  @Prop({})
+  ar: string;
+}
 @Schema()
 export class Category extends Document {
-  @Prop({ required: true, unique: true })
-  displayName: string;
+  @Prop({ type: DisplayName, required: true, unique: true })
+  @Type(() => DisplayName)
+  displayName: DisplayName;
 
   @Prop({ required: true })
   technicalName: string;

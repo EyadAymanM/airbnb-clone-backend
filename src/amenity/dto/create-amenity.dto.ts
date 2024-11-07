@@ -1,11 +1,33 @@
-import { IsNotEmpty } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+class NameDto {
+  @IsNotEmpty()
+  @IsString()
+  en: string;
+
+  @IsNotEmpty()
+  @IsString()
+  ar: string;
+}
+
+class DescriptionDto {
+  @IsNotEmpty()
+  @IsString()
+  en: string;
+
+  @IsNotEmpty()
+  @IsString()
+  ar: string;
+}
 
 export class CreateAmenityDto {
-  @IsNotEmpty()
-  name: string;
+  @ValidateNested()
+  @Type(() => NameDto)
+  name: NameDto;
 
-  @IsNotEmpty()
-  description: string;
+  @ValidateNested()
+  @Type(() => DescriptionDto)
+  description: DescriptionDto;
 
   @IsNotEmpty()
   icon: string; 
