@@ -91,6 +91,7 @@ export class Listing extends Document {
   // @Type(() => AvailableDate)
   // availableDates: AvailableDate[];
 
+  
   @Prop({ type: Date })
   startDate: Date;
 
