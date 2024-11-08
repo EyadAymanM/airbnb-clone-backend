@@ -23,16 +23,19 @@ export const AddressSchema = SchemaFactory.createForClass(Address);
 
 @Schema({ timestamps: true })
 export class User extends Document {
-  @Prop({ required: true })
+  @Prop({  })
   firstName: string;
 
-  @Prop({ required: true })
+  @Prop({  })
   lastName: string;
+
+  @Prop({ })
+  name: string;
 
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({  })
   password: string;
 
   @Prop({ unique: true })
@@ -56,6 +59,10 @@ export class User extends Document {
     default: 'user' 
   })
   roles: string;
+
+  @Prop({ unique: true })
+  idToken: string;
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

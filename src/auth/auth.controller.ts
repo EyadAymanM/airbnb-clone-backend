@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { UserService } from 'src/user/user.service';
-import { Register } from './dto/register.dto';
+import { AuthService } from './auth.service';
 import { LogIn } from './dto/login.dto';
+import { Register } from './dto/register.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -32,5 +32,9 @@ export class AuthController {
   @Post('login')
   login(@Body() login: LogIn) {
     return this.authService.login(login.email, login.password);
+  }
+  @Post('google-login')
+  async googleLogin(@Body() body: { idToken: string }) {
+    return this.authService.googleLogin(body.idToken);
   }
 }

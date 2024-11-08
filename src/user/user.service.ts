@@ -105,4 +105,25 @@ export class UserService {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     }
   }
+  async findOrCreate(userData: {
+    idToken: string;
+    email: string;
+    name: string;
+    image: string;
+  }) {
+    try {
+      let user = await this.userModel.findOne({ email: userData.email });
+      if (!user) {
+        user = await this.userModel.create({
+          idToken: userData.idToken,
+          email: userData.email,
+          name: userData.name,
+          image: userData.image,
+        });
+      }
+      return user;
+    } catch (error) {
+      throw new InternalServerErrorException('Error handling Google login');
+    }
+  }
 }
