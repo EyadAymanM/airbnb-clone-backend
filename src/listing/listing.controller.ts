@@ -46,6 +46,11 @@ export class ListingController {
     return this.listingService.findAll();
   }
 
+  @Get('search')
+  SearchByTitle(@Query('title') title?: string) {
+    return this.listingService.searchByTitle(title);
+  }
+
   @Get('verified')
   GetVerifiedListings(@Query('category') category?: string) {
     if (category) {

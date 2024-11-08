@@ -99,6 +99,9 @@ export class Listing extends Document {
 
   @Prop({ default: false })
   verified: boolean;
+
+  @Prop()
+  book: boolean;
 }
 
 export const ListingSchema = SchemaFactory.createForClass(Listing);

@@ -54,7 +54,7 @@ export class ListingService {
 
   async findVerified(): Promise<Listing[]> {
     try {
-      return await this.listingModel.find({ verified: true });
+      return await this.listingModel.find({ verified: true, book: false });
     } catch (error) {
       throw new InternalServerErrorException('Error retrieving listings');
     }
@@ -145,6 +145,7 @@ export class ListingService {
       const listings = await this.listingModel.find({
         category: categoryName,
         verified: true,
+        book: false
       });
       if (listings.length === 0) {
         throw new NotFoundException(
@@ -161,6 +162,28 @@ export class ListingService {
       );
     }
   }
+
+  async searchByTitle(title: string): Promise<Listing[]> {
+    try {
+      const listings = await this.listingModel.find({
+        verified: true,
+        book: false
+      });
+      const result = listings.filter((listing) =>
+        listing.title.toLowerCase().includes(title)
+      );
+      if (listings.length === 0) {
+        throw new NotFoundException(`No listings found with this title`);
+      }
+      return result;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error retrieving listings');
+    }
+  }
+
   async findByUserId(hostId: string): Promise<Listing[]> {
     try {
       const listings = await this.listingModel.find({
